@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "jest": true,
+    "es2021": true
+  },
+  "rules": {
+    "no-console": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "consistent-return": "off",
+    "camelcase": "off",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "max-len": ["error", { "code": 120 }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.js", "**/*.spec.js"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
+}
