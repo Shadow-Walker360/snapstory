@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = React.forwardRef(({
+const Select = React.forwardRef(({
   label,
   name,
-  type = 'text',
+  options = [],
   error,
   className = '',
+  placeholder = 'Select an option',
   ...props
 }, ref) => {
   return (
@@ -19,13 +20,25 @@ const Input = React.forwardRef(({
           {label}
         </label>
       )}
-      <input
+      <select
         ref={ref}
         name={name}
-        type={type}
         className={`block w-full px-3 py-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors`}
         {...props}
-      />
+      >
+        <option value="" disabled hidden>
+          {placeholder}
+        </option>
+        {options.map((option) => (
+          <option 
+            key={option.value} 
+            value={option.value}
+            disabled={option.disabled}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
       {error && (
         <p className="mt-1 text-sm text-red-600">{error}</p>
       )}
@@ -33,12 +46,19 @@ const Input = React.forwardRef(({
   );
 });
 
-Input.propTypes = {
+Select.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      label: PropTypes.string.isRequired,
+      disabled: PropTypes.bool
+    })
+  ),
   error: PropTypes.string,
   className: PropTypes.string,
+  placeholder: PropTypes.string
 };
 
-export default Input;
+export default Select;
